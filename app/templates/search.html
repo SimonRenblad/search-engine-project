@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Results for "{{ query }}"{% endblock %}
+
+{% block content %}
+  <h2>Results for "{{ query }}"</h2>
+  {% if results %}
+    <ul>
+      {% for result in results %}
+        <li>
+          {{ result['score'] }}<br>
+          <a href="{{ result['url'] }}">{{ result['title'] }}</a><br>
+          <a href="{{ result['url'] }}">{{ result['url'] }}</a><br>
+          {{ result['last-modified'] }}, {{ result['content-length']}}<br>
+          {% for term, freq in result['term-frequencies'] %}
+            {{term}} {{freq}};
+          {% endfor %} <br>
+          Child links:
+          <ul>
+          {% for link in result['links'] %}
+            <li><a href="{{link}}">{{link}}</a></li>
+          {% endfor %}
+          </ul>
+          <hr>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No results found.</p>
+  {% endif %}
+{% endblock %}
